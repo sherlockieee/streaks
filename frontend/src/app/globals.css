@@ -7,11 +7,11 @@
 /* set default color theme */
 
 :root {
-  --primary-color: #ffca72;
-  --success-color: #97ff72;
-  --failure-color: #ff7272;
-  --black-color: #000000;
-  --white-color: #ffffff;
+  --color-primary: #ffca72;
+  --color-success: #97ff72;
+  --color-failure: #ff7272;
+  --color-black: #000000;
+  --color-white: #ffffff;
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -22,12 +22,18 @@
   }
 } */
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+@layer base {
+  html {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Russo One", sans-serif;
+  }
 }
