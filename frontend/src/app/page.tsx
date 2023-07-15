@@ -1,6 +1,9 @@
 import prisma from "../../lib/prisma";
 import { Prisma } from "@prisma/client";
-import { SquareStreak } from "./components/squareStreak";
+import { StreakSquare } from "./components/streakSquare";
+import { AddSquare } from "./components/addSquare";
+
+const MAX_HABITS = 4;
 
 async function getTodayHabits() {
   const res = await prisma.habit.findMany({
@@ -38,8 +41,12 @@ export default async function Home() {
         </div>
         <div className="flex flex-row flex-wrap items-stretch justify-between gap-4">
           {habitData.map((habit) => (
-            <SquareStreak key={habit.id} habit={habit} />
+            <StreakSquare key={habit.id} habit={habit} />
           ))}
+          {habitData.length < MAX_HABITS &&
+            Array(MAX_HABITS - habitData.length)
+              .fill(0)
+              .map((_, index) => <AddSquare key={index} />)}
         </div>
         <div>
           <h2 className="underline text-xl">Friends</h2>

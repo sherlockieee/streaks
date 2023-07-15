@@ -3,7 +3,7 @@ import sadSunIcon from "../../../public/icons/sad-sun.svg";
 import happySunIcon from "../../../public/icons/happy-sun.svg";
 import { TodayHabit } from "../page";
 
-export function SquareStreak({ habit }: { habit: TodayHabit }) {
+export function StreakSquare({ habit }: { habit: TodayHabit }) {
   return (
     <div
       className={`flex rounded-2xl border-black border-4 flex-col justify-center items-center p-4 ${
