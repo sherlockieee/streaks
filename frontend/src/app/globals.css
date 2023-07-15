@@ -38,11 +38,8 @@
   }
 }
 
-.bouncing-transition {
-  transition: transform 200ms ease;
-}
-
-.bouncing-transition:hover {
-  transform: translateX(0.25rem);
-  transform: translateY(0.25rem);
+@layer utilities {
+  .bouncing-animation {
+    @apply transition-transform duration-200 ease-linear hover:translate-x-1 hover:translate-y-1;
+  }
 }

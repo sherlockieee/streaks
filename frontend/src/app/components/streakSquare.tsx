@@ -12,7 +12,7 @@ export function StreakSquare({ habit }: { habit: TodayHabit }) {
           : habit.habitProgress.status === "FAIL_FREEZE"
           ? "bg-failure"
           : "bg-white"
-      } gap-2 aspect-square h-40`}
+      } gap-2 aspect-square h-40 bouncing-animation cursor-pointer`}
     >
       <p className="font-bold text-lg">
         🔥 {habit.habitProgress.currentStreakCount}{" "}

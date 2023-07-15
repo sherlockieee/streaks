@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "prisma generate && next build",
+    "dev": "prisma generate && next dev",
+    "build": "prisma generate && prisma db push && next build",
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate"
@@ -16,7 +16,6 @@
     "@types/react-dom": "18.2.6",
     "@vercel/postgres": "^0.4.0",
     "autoprefixer": "10.4.14",
-    "eslint": "8.44.0",
     "eslint-config-next": "13.4.9",
     "next": "13.4.9",
     "postcss": "8.4.25",
@@ -26,6 +25,10 @@
     "typescript": "5.1.6"
   },
   "devDependencies": {
+    "eslint": "^8.45.0",
+    "eslint-plugin-tailwindcss": "^3.13.0",
+    "prettier": "^3.0.0",
+    "prettier-plugin-tailwindcss": "^0.4.1",
     "prisma": "^5.0.0"
   }
 }
