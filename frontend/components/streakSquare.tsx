@@ -1,7 +1,7 @@
 import Image from "next/image";
-import sadSunIcon from "../../../public/icons/sad-sun.svg";
-import happySunIcon from "../../../public/icons/happy-sun.svg";
-import { TodayHabit } from "../page";
+import sadSunIcon from "../public/icons/sad-sun.svg";
+import happySunIcon from "../public/icons/sad-sun.svg";
+import { TodayHabit } from "../app/page";
 
 export function StreakSquare({ habit }: { habit: TodayHabit }) {
   return (

@@ -1,7 +1,7 @@
-import prisma from "../../lib/prisma";
+import prisma from "../lib/prisma";
 import { Prisma } from "@prisma/client";
-import { StreakSquare } from "./components/streakSquare";
-import { AddSquare } from "./components/addSquare";
+import { StreakSquare } from "../components/streakSquare";
+import { AddSquare } from "../components/addSquare";
 
 const MAX_HABITS = 4;
 
