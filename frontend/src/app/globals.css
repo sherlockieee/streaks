@@ -37,3 +37,12 @@
     font-family: "Russo One", sans-serif;
   }
 }
+
+.bouncing-transition {
+  transition: transform 200ms ease;
+}
+
+.bouncing-transition:hover {
+  transform: translateX(0.25rem);
+  transform: translateY(0.25rem);
+}
