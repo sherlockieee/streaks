@@ -1,28 +1,67 @@
-"use client";
-
 import Checkbox from "@/components/checkbox";
-import { useState, useEffect } from "react";
+import prisma from "@/lib/prisma";
+import { redirect } from "next/navigation";
+
+async function createHabit(data: FormData) {
+  "use server";
+
+  const title = data.get("title")?.valueOf();
+  if (typeof title !== "string" || title.length === 0) {
+    throw new Error("Invalid Title");
+  }
+
+  const minimumTime = Number(data.get("minimumTime")?.valueOf());
+  if (typeof minimumTime !== "number" || minimumTime < 1) {
+    throw new Error("Invalid minimum time");
+  }
+
+  const requireEvidence = Boolean(data.get("requireEvidence")?.valueOf());
+  const allowStreakFreeze = Boolean(data.get("allowStreakFreeze")?.valueOf());
+
+  const newHabit = await prisma.habit.create({
+    data: {
+      title,
+      minimumTime,
+      requireEvidence,
+      allowStreakFreeze,
+    },
+  });
+
+  if (newHabit === null) {
+    throw new Error("Failed to create habit");
+  }
+
+  const newHabitProgress = await prisma.habitProgress.create({
+    data: {
+      habitId: newHabit.id,
+      createdAt: new Date(),
+      status: "NOT_DONE_YET",
+      completed: false,
+      minutes: 0,
+      currentStreakCount: 0,
+    },
+  });
+
+  if (newHabitProgress === null) {
+    throw new Error("Failed to create habit progress");
+  }
+
+  console.log("habit created");
+  redirect("/");
+}
 
 export default function Add() {
-  const [title, setTitle] = useState("");
-  const [minimumTime, setMinimumTime] = useState(5);
-  const [evidenceRequired, setEvidenceRequired] = useState(true);
-  const [streakFreeze, setStreakFreeze] = useState(true);
-
-  function handleSubmit() {}
-
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-8">
       <form
-        onSubmit={handleSubmit}
+        action={createHabit}
         className="w-full max-w-md bg-primary p-10  border-black border-solid border-4 rounded-2xl flex flex-col "
       >
         <input
           type="text"
           className="w-full text-xl bg-transparent font-serif font-bold border-b border-gray-500 border-solid placeholder:text-slate-500 placeholder:italic focus:outline-none mb-4"
           placeholder="Habit title..."
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          name="title"
           required
         ></input>
         <div className="mb-2">
@@ -38,10 +77,8 @@ export default function Add() {
             type="number"
             min={1}
             required
-            onChange={(e) => {
-              setMinimumTime(parseInt(e.target.value));
-            }}
-            value={minimumTime}
+            name="minimumTime"
+            defaultValue={5}
             className="mr-2 w-12 bg-transparent border-b border-gray-500 border-solid placeholder:text-slate-500 placeholder:italic focus:outline-none"
           ></input>
           <label htmlFor="minutes">minutes</label>
@@ -49,18 +86,16 @@ export default function Add() {
         <div className="flex items-center">
           <Checkbox
             defaultChecked
-            value={evidenceRequired}
+            name="requireEvidence"
             id="require-evidence"
-            onClick={() => setEvidenceRequired(!evidenceRequired)}
           />
           <label htmlFor="require-evidence">Require uploading evidence</label>
         </div>
         <div className="flex items-center mb-4">
           <Checkbox
             defaultChecked
-            value={streakFreeze}
+            name="allowStreakFreeze"
             id="streak-freeze"
-            onClick={() => setStreakFreeze(!streakFreeze)}
           />
           <label htmlFor="streak-freeze">Allow streak freezes</label>
         </div>

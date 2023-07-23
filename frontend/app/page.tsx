@@ -12,12 +12,13 @@ async function getTodayHabits() {
       title: true,
       habitProgress: {
         orderBy: {
-          date: "desc",
+          createdAt: "desc",
         },
         take: 1,
       },
     },
   });
+  console.log(res);
   // remove the array from habitProgress
   const flattenedRes = res.map((habit) => {
     return { ...habit, habitProgress: habit.habitProgress[0] };

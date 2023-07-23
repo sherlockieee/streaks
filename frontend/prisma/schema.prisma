@@ -1,65 +1,44 @@
-// schema.prisma
-
 generator client {
     provider = "prisma-client-js"
 }
 
 datasource db {
     provider          = "postgresql"
-    url               = env("POSTGRES_PRISMA_URL") // uses connection pooling
-    directUrl         = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
-    shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING") // used for migrations
-}
-
-model User {
-    id        String   @id @default(cuid())
-    name      String?
-    email     String?  @unique
-    createdAt DateTime @default(now()) @map(name: "created_at")
-    updatedAt DateTime @updatedAt @map(name: "updated_at")
-    habits    Habit[]
-
-    @@map(name: "users")
+    url               = env("POSTGRES_PRISMA_URL")
+    directUrl         = env("POSTGRES_URL_NON_POOLING")
+    shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 model Habit {
     id                        String          @id @default(cuid())
-    user                      User            @relation(fields: [userId], references: [id])
-    userId                    String          @map(name: "user_id")
     title                     String
-    startDate                 DateTime        @default(now()) @map(name: "start_date")
+    createdAt                 DateTime        @default(now()) @map("created_at")
+    updatedAt                 DateTime        @default(now()) @updatedAt @map("updated_at")
+    freezeLimit               Int             @default(2) @map("freeze_limit")
+    minimumTime               Int             @default(1) @map("minimum_time")
+    requireEvidence           Boolean         @default(true) @map("require_evidence")
+    allowStreakFreeze         Boolean         @default(true) @map("allow_streak_freeze")
+    consecutiveDaysOffAllowed Boolean         @default(true) @map("consecutive_days_off_allowed")
     habitProgress             HabitProgress[]
-    freezeLimit               Int             @default(2) @map(name: "freeze_limit")
-    // streakFreeze              streakFreeze[]
-    consecutiveDaysOffAllowed Boolean         @default(true) @map(name: "consecutive_days_off_allowed")
 
-    @@map(name: "habits")
+    @@map("habits")
 }
 
 model HabitProgress {
     id                 String              @id @default(cuid())
+    habitId            String              @map("habit_id")
+    minutes            Int                 @default(0)
+    createdAt          DateTime            @default(now()) @map("created_at")
+    completed          Boolean             @default(false)
+    lastCompletedAt    DateTime?           @map("last_completed_date")
+    currentStreakCount Int                 @default(0) @map("current_streak_count")
+    status             HabitProgressStatus @default(NOT_DONE_YET)
     habit              Habit               @relation(fields: [habitId], references: [id])
-    habitId            String              @map(name: "habit_id")
-    minutes            Int
-    date               DateTime
-    completed          Boolean
-    lastCompletedDate  DateTime            @map(name: "last_completed_date")
-    currentStreakCount Int                 @map(name: "current_streak_count")
-    status             HabitProgressStatus
 }
 
 enum HabitProgressStatus {
     SUCCESS
     NOT_DONE_YET
     FAIL_FREEZE
-    // FAIL_NO_MORE_FREEZE
     FAIL_CONSECUTIVE_DAY_OFFS
 }
-
-// model streakFreeze {
-//     id         String   @id @default(cuid())
-//     habit      Habit    @relation(fields: [habitId], references: [id])
-//     habitId    String   @map(name: "habit_id")
-//     usageCount Int      @map(name: "usage_count")
-//     updatedAt  DateTime
-// }
