@@ -1,10 +1,10 @@
+import { Button } from "@/components/ButtonUI";
 import Checkbox from "@/components/checkbox";
+import { InputBox } from "@/components/InputBox";
 import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
 
 async function createHabit(data: FormData) {
-  "use server";
-
   const title = data.get("title")?.valueOf();
   if (typeof title !== "string" || title.length === 0) {
     throw new Error("Invalid Title");
@@ -46,7 +46,6 @@ async function createHabit(data: FormData) {
     throw new Error("Failed to create habit progress");
   }
 
-  console.log("habit created");
   redirect("/");
 }
 
@@ -73,15 +72,17 @@ export default function Add() {
         </div>
         <div className="mb-4">
           <p className="font-bold">For a minimum of:</p>
-          <input
-            type="number"
-            min={1}
-            required
-            name="minimumTime"
-            defaultValue={5}
-            className="mr-2 w-12 bg-transparent border-b border-gray-500 border-solid placeholder:text-slate-500 placeholder:italic focus:outline-none"
-          ></input>
-          <label htmlFor="minutes">minutes</label>
+          <div className="flex gap-3">
+            <InputBox
+              type="number"
+              defaultValue={5}
+              required
+              min={1}
+              id="minimumTime"
+              name="minimumTime"
+            />
+            <span className="inline-block w-min">minutes</span>
+          </div>
         </div>
         <div className="flex items-center">
           <Checkbox
@@ -100,12 +101,7 @@ export default function Add() {
           <label htmlFor="streak-freeze">Allow streak freezes</label>
         </div>
 
-        <button
-          type="submit"
-          className="border-4 border-black border-solid rounded-md font-serif uppercase font-bold bg-white px-4 py-2 hover:bg-gray-100"
-        >
-          Add new habit
-        </button>
+        <Button type="submit">Add new habit</Button>
       </form>
     </main>
   );
