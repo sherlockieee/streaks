@@ -6,7 +6,7 @@ import { useState } from "react";
 import { CheckIcon } from "@radix-ui/react-icons";
 import { BaseSquare } from "./baseSquare";
 import * as Dialog from "@radix-ui/react-dialog";
-import { DialogPortal } from "../DialogPortal";
+import { LogProgressDialog } from "../LogProgressDialog";
 
 export default function NotDoneSquare({ habit }: { habit: TodayHabit }) {
   const [isHovering, setIsHovered] = useState(false);
@@ -17,7 +17,7 @@ export default function NotDoneSquare({ habit }: { habit: TodayHabit }) {
     <Dialog.Root>
       <Dialog.Trigger asChild>
         <BaseSquare
-          className={"bg-white hover:bg-gray-100"}
+          className={"bg-white hover:bg-gray-100 w-100"}
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
         >
@@ -32,12 +32,12 @@ export default function NotDoneSquare({ habit }: { habit: TodayHabit }) {
                 🔥 {habit.habitProgress.currentStreakCount}{" "}
               </p>
               <Image src={sadSunIcon} alt={"sad sun icon"} width={72} />
-              <p>{habit.title}</p>
+              <p className="line-clamp-1">{habit.title}</p>
             </>
           )}{" "}
         </BaseSquare>
       </Dialog.Trigger>
-      <DialogPortal habit={habit} />
+      <LogProgressDialog habit={habit} />
     </Dialog.Root>
   );
 }

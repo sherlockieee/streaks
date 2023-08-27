@@ -11,7 +11,7 @@ export default function DoneSquare({ habit }: { habit: TodayHabit }) {
         🔥 {habit.habitProgress.currentStreakCount}{" "}
       </p>
       <Image src={happySunIcon} alt={"happy sun icon"} width={72} />
-      <p>{habit.title}</p>
+      <p className="truncate">{habit.title}</p>
     </BaseSquare>
   );
 }
