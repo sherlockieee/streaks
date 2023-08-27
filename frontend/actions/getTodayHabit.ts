@@ -16,7 +16,6 @@ export async function getTodayHabits() {
   const flattenedRes = res.map((habit) => {
     return { ...habit, habitProgress: habit.habitProgress[0] };
   });
-  console.log(flattenedRes);
   return flattenedRes;
 }
 

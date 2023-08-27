@@ -32,7 +32,6 @@ export async function POST(req: NextRequest) {
         },
       });
 
-      console.log(JSON.stringify(newHabitProgress));
       return new NextResponse(JSON.stringify(newHabitProgress), {
         status: 200,
       });
