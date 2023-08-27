@@ -10,7 +10,7 @@ import { Button } from "./ButtonUI";
 import { HabitProgressStatus } from "@prisma/client";
 import { redirect } from "next/navigation";
 
-export function DialogPortal({ habit }: { habit: TodayHabit }) {
+export function LogProgressDialog({ habit }: { habit: TodayHabit }) {
   const [error, setError] = useState("");
   const [isFetching, setIsFetching] = useState(false);
 
